@@ -24,7 +24,7 @@ function App() {
   const handleSubmit = async () => {
     setConverting(true);
     setAudioSrc("");
-    if (url && selectedItem==null) {
+    if (url && !selectedItem) {
       axios
         .post(`${url}/process_text`, {
           text: text,
