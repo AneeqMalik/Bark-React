@@ -11,20 +11,21 @@ function App() {
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
   const [audioSrc, setAudioSrc] = useState(null);
+  const [prompt, setPrompt] = useState(false);
   const [converting, setConverting] = useState(false);
 
   const toggleDropdown = () => setOpen(!isOpen);
 
   const handleItemClick = (code) => {
     // eslint-disable-next-line
-    selectedItem == code ? setSelectedItem(null) : setSelectedItem(code);
+    selectedItem == code ? setSelectedItem(null) && setPrompt(false) : setSelectedItem(code) && setPrompt(true);
     console.log(selectedItem);
   };
 
   const handleSubmit = async () => {
     setConverting(true);
     setAudioSrc("");
-    if (url && (selectedItem==="" || null || undefined)) {
+    if (url && !prompt) {
       axios
         .post(`${url}/process_text`, {
           text: text,
@@ -39,7 +40,7 @@ function App() {
           console.log(error);
         });
     }
-    if (url && selectedItem) {
+    if (url && prompt) {
       axios
         .post(`${url}/process_text_custom_voice`, {
           text: text,
